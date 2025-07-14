@@ -61,7 +61,44 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Mithila Magic custom colors
+				terai: {
+					gold: 'hsl(var(--terai-gold))',
+					terracotta: 'hsl(var(--terai-terracotta))',
+					sage: 'hsl(var(--terai-sage))',
+					cream: 'hsl(var(--terai-cream))'
+				},
+				spice: {
+					saffron: 'hsl(var(--spice-saffron))',
+					turmeric: 'hsl(var(--spice-turmeric))',
+					paprika: 'hsl(var(--spice-paprika))'
+				},
+				earth: {
+					brown: 'hsl(var(--earth-brown))'
+				},
+				harvest: {
+					green: 'hsl(var(--harvest-green))'
 				}
+			},
+			backgroundImage: {
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-warm': 'var(--gradient-warm)',
+				'gradient-spice': 'var(--gradient-spice)',
+				'gradient-earth': 'var(--gradient-earth)'
+			},
+			boxShadow: {
+				'warm': 'var(--shadow-warm)',
+				'deep': 'var(--shadow-deep)',
+				'glow': 'var(--shadow-glow)'
+			},
+			fontFamily: {
+				'display': ['Georgia', 'serif'],
+				'body': ['Inter', 'system-ui', 'sans-serif']
+			},
+			transitionTimingFunction: {
+				'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+				'bounce': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

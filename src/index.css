@@ -2,39 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Mithila Magic Design System - Inspired by Terai landscapes and Mithila art
+All colors MUST be HSL for Tailwind compatibility.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors inspired by Terai earth and cream */
+    --background: 35 25% 97%;
+    --foreground: 25 15% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 35 30% 95%;
+    --card-foreground: 25 15% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 35 30% 95%;
+    --popover-foreground: 25 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary: Rich mustard yellow inspired by Terai mustard fields */
+    --primary: 45 85% 45%;
+    --primary-foreground: 35 25% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary: Warm terracotta inspired by traditional earthenware */
+    --secondary: 20 60% 75%;
+    --secondary-foreground: 25 15% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted: Soft cream inspired by traditional Mithila paper */
+    --muted: 35 20% 92%;
+    --muted-foreground: 25 25% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent: Deep saffron inspired by spice markets */
+    --accent: 35 90% 55%;
+    --accent-foreground: 25 15% 15%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive: Chili red */
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 35 25% 97%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders and inputs: Subtle earth tones */
+    --border: 35 20% 85%;
+    --input: 35 20% 90%;
+    --ring: 45 85% 45%;
+
+    /* Custom Mithila Magic theme colors */
+    --terai-gold: 45 85% 45%;
+    --terai-terracotta: 20 60% 65%;
+    --terai-sage: 85 25% 55%;
+    --terai-cream: 35 25% 95%;
+    --spice-saffron: 35 90% 55%;
+    --spice-turmeric: 50 80% 60%;
+    --spice-paprika: 15 75% 55%;
+    --earth-brown: 25 35% 35%;
+    --harvest-green: 85 35% 45%;
+
+    /* Gradients for beautiful backgrounds */
+    --gradient-hero: linear-gradient(135deg, hsl(45 85% 45%), hsl(35 90% 55%), hsl(20 60% 65%));
+    --gradient-warm: linear-gradient(180deg, hsl(35 25% 97%), hsl(35 20% 92%));
+    --gradient-spice: linear-gradient(45deg, hsl(35 90% 55%), hsl(50 80% 60%));
+    --gradient-earth: linear-gradient(135deg, hsl(25 35% 35%), hsl(20 60% 65%));
+
+    /* Shadows with warm tones */
+    --shadow-warm: 0 4px 20px hsl(35 90% 55% / 0.15);
+    --shadow-deep: 0 8px 32px hsl(25 35% 35% / 0.2);
+    --shadow-glow: 0 0 30px hsl(45 85% 45% / 0.3);
+
+    /* Animation variables */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
