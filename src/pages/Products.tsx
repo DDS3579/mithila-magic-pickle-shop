@@ -117,12 +117,12 @@ const Products = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-glow transition-all duration-300 overflow-hidden">
+            <Card key={product.id} className="group hover:shadow-glow transition-all duration-500 hover:-translate-y-2 overflow-hidden animate-fade-in">
               <div className="relative">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 
                 {/* Badge */}
@@ -139,7 +139,7 @@ const Products = () => {
                 )}
 
                 {/* Quick Actions */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
                   <Button size="icon" variant="secondary" className="h-8 w-8">
                     <Eye className="h-4 w-4" />
                   </Button>
@@ -175,8 +175,14 @@ const Products = () => {
                   className="flex-1"
                   variant={product.inStock ? "cart" : "outline"}
                   disabled={!product.inStock}
+                  onClick={() => {
+                    if (product.inStock) {
+                      // Add to cart logic here
+                      console.log("Added to cart:", product.name);
+                    }
+                  }}
                 >
-                  <ShoppingCart className="h-4 w-4" />
+                  <ShoppingCart className="h-4 w-4 mr-2" />
                   {product.inStock ? "Add to Cart" : "Notify When Available"}
                 </Button>
                 <Button variant="outline" size="icon" asChild>
