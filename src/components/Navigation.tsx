@@ -3,11 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Menu, X, ShoppingCart } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const cartItemsCount = 3; // This would be dynamic in a real app
+  const { getTotalItems } = useCart();
+  const cartItemsCount = getTotalItems();
 
   const navItems = [
     { name: "Home", path: "/" },

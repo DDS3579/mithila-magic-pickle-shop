@@ -6,33 +6,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Trash2, Plus, Minus, ShoppingCart, MessageCircle, Truck, Shield } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-// Import product images
-import mangoPickle from "@/assets/mango-pickle.jpg";
-import limePickle from "@/assets/lime-pickle.jpg";
-import mixedPickle from "@/assets/mixed-pickle.jpg";
-
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Traditional Mango Pickle",
-      price: 450,
-      quantity: 2,
-      image: mangoPickle,
-      weight: "500g"
-    },
-    {
-      id: 2,
-      name: "Zesty Lime Pickle",
-      price: 380,
-      quantity: 1,
-      image: limePickle,
-      weight: "500g"
-    }
-  ]);
+  const { cartItems, updateQuantity, removeFromCart, getTotalItems, getTotalPrice } = useCart();
 
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
@@ -42,21 +21,7 @@ const Cart = () => {
     specialInstructions: ""
   });
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity === 0) {
-      setCartItems(cartItems.filter(item => item.id !== id));
-    } else {
-      setCartItems(cartItems.map(item => 
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      ));
-    }
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
-
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = getTotalPrice();
   const deliveryFee = subtotal >= 1500 ? 0 : 100;
   const total = subtotal + deliveryFee;
 
@@ -165,7 +130,7 @@ Please confirm this order and share payment details.`;
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeFromCart(item.id)}
                         className="text-destructive hover:text-destructive"
                       >
                         <Trash2 className="h-4 w-4" />

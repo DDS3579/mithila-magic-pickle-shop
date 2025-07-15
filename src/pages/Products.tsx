@@ -5,6 +5,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, Filter, ShoppingCart, Star, Eye } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -58,6 +60,7 @@ const products = [
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const { addToCart } = useCart();
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -177,8 +180,17 @@ const Products = () => {
                   disabled={!product.inStock}
                   onClick={() => {
                     if (product.inStock) {
-                      // Add to cart logic here
-                      console.log("Added to cart:", product.name);
+                      addToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        weight: "500g"
+                      });
+                      toast({
+                        title: "Added to Cart!",
+                        description: `${product.name} has been added to your cart.`,
+                      });
                     }
                   }}
                 >
