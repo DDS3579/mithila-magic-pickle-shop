@@ -5,7 +5,6 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/mithila-magic-pickle-shop',
   server: {
     host: "::",
     port: 8080,
