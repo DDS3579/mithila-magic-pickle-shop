@@ -16,6 +16,8 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -28,6 +30,8 @@ import traditionalMaking from "@/assets/traditional-making.jpg";
 
 const Index = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const { addToCart } = useCart();
+  const { toast } = useToast();
 
   const featuredProducts = [
     {
@@ -39,7 +43,8 @@ const Index = () => {
       image: mangoPickle,
       rating: 4.8,
       reviews: 124,
-      badge: "Best Seller"
+      badge: "Best Seller",
+      weight: "500g"
     },
     {
       id: 2,
@@ -50,7 +55,8 @@ const Index = () => {
       image: limePickle,
       rating: 4.7,
       reviews: 98,
-      badge: "Limited Edition"
+      badge: "Limited Edition",
+      weight: "500g"
     },
     {
       id: 3,
@@ -61,7 +67,8 @@ const Index = () => {
       image: mixedPickle,
       rating: 4.9,
       reviews: 156,
-      badge: "Chef's Choice"
+      badge: "Chef's Choice",
+      weight: "500g"
     }
   ];
 
@@ -95,6 +102,20 @@ const Index = () => {
 
   const prevTestimonial = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const handleAddToCart = (product: any) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      weight: product.weight
+    });
+    toast({
+      title: "Added to cart!",
+      description: `${product.name} has been added to your cart.`,
+    });
   };
 
   return (
@@ -227,7 +248,11 @@ const Index = () => {
                         </span>
                       )}
                     </div>
-                    <Button variant="cart" size="sm">
+                    <Button 
+                      variant="cart" 
+                      size="sm"
+                      onClick={() => handleAddToCart(product)}
+                    >
                       <ShoppingCart className="h-4 w-4" />
                       Add to Cart
                     </Button>

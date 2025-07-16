@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, ShoppingCart, Heart, Share2, Star, Shield, Leaf, Clock } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -15,6 +17,7 @@ import mixedPickle from "@/assets/mixed-pickle.jpg";
 
 const productData = {
   1: {
+    id: 1,
     name: "Traditional Mango Pickle",
     description: "Our signature mango pickle is made using the finest raw mangoes sourced from Terai orchards, combined with authentic Mithila spices passed down through generations.",
     longDescription: "This exquisite mango pickle represents the pinnacle of Mithila culinary tradition. Each jar contains carefully selected raw mangoes that are hand-cut and mixed with a secret blend of mustard seeds, fenugreek, turmeric, red chili powder, and pure mustard oil. The preparation follows traditional methods that have been perfected over centuries in the Terai region.",
@@ -43,6 +46,8 @@ const ProductDetail = () => {
   const product = productData[Number(id) as keyof typeof productData];
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const { toast } = useToast();
 
   if (!product) {
     return (
@@ -56,6 +61,22 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  const handleAddToCart = () => {
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        weight: product.weight
+      });
+    }
+    toast({
+      title: "Added to cart!",
+      description: `${quantity} x ${product.name} added to your cart.`,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-warm">
@@ -185,7 +206,12 @@ const ProductDetail = () => {
               </div>
 
               <div className="flex gap-4">
-                <Button className="flex-1" size="lg" variant="cart">
+                <Button 
+                  className="flex-1" 
+                  size="lg" 
+                  variant="cart"
+                  onClick={handleAddToCart}
+                >
                   <ShoppingCart className="h-5 w-5" />
                   Add to Cart
                 </Button>

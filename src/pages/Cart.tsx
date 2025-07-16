@@ -103,7 +103,7 @@ Please confirm this order and share payment details.`;
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 order-2 lg:order-1">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -113,30 +113,21 @@ Please confirm this order and share payment details.`;
               </CardHeader>
               <CardContent className="space-y-6">
                 {cartItems.map((item) => (
-                  <div key={item.id} className="flex gap-4 p-4 border rounded-lg">
+                  <div key={item.id} className="flex flex-col sm:flex-row gap-4 p-4 border rounded-lg">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-20 h-20 object-cover rounded-lg"
+                      className="w-full sm:w-20 h-20 object-cover rounded-lg"
                     />
                     
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-lg">{item.name}</h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-lg truncate">{item.name}</h3>
                       <p className="text-muted-foreground">{item.weight}</p>
                       <p className="text-terai-gold font-semibold text-lg">₹{item.price}</p>
                     </div>
 
-                    <div className="flex flex-col items-end gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-destructive hover:text-destructive"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                      
-                      <div className="flex items-center gap-2">
+                    <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 justify-between sm:justify-start">
+                      <div className="flex items-center gap-2 order-2 sm:order-1">
                         <Button
                           size="sm"
                           variant="outline"
@@ -154,7 +145,17 @@ Please confirm this order and share payment details.`;
                         </Button>
                       </div>
                       
-                      <p className="font-semibold">₹{item.price * item.quantity}</p>
+                      <div className="flex flex-col items-end gap-2 order-1 sm:order-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                        <p className="font-semibold">₹{item.price * item.quantity}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -248,7 +249,7 @@ Please confirm this order and share payment details.`;
           </div>
 
           {/* Order Summary */}
-          <div className="space-y-6">
+          <div className="space-y-6 order-1 lg:order-2">
             <Card>
               <CardHeader>
                 <CardTitle>Order Summary</CardTitle>
