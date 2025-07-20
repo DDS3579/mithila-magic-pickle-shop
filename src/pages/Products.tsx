@@ -231,7 +231,8 @@ const Products = () => {
                   className="flex-1"
                   variant={product.inStock ? "cart" : "outline"}
                   disabled={!product.inStock}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     if (product.inStock) {
                       addToCart({
                         id: product.id,

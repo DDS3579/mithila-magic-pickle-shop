@@ -292,7 +292,10 @@ const Index = () => {
                     <Button 
                       variant="cart" 
                       size="sm"
-                      onClick={() => handleAddToCart(product)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart(product);
+                      }}
                     >
                       <ShoppingCart className="h-4 w-4" />
                       Add to Cart
