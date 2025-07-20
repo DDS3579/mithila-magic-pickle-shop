@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Filter, ShoppingCart, Star, Eye } from "lucide-react";
+import { Search, Filter, ShoppingCart, Star, Eye, Heart, Share2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
@@ -60,13 +60,38 @@ const products = [
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [likedProducts, setLikedProducts] = useState<number[]>([]);
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const handleLike = (productId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLikedProducts(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const handleShare = (productId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const productUrl = `${window.location.origin}/products/${productId}`;
+    navigator.clipboard.writeText(productUrl);
+    toast({
+      title: "Link copied!",
+      description: "Product link has been copied to your clipboard.",
+    });
+  };
+
+  const handleProductClick = (productId: number) => {
+    navigate(`/products/${productId}`);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-warm">
@@ -120,7 +145,11 @@ const Products = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-glow transition-all duration-500 hover:-translate-y-2 overflow-hidden animate-fade-in">
+            <Card 
+              key={product.id} 
+              className="group hover:shadow-glow transition-all duration-500 hover:-translate-y-2 overflow-hidden animate-fade-in cursor-pointer"
+              onClick={() => handleProductClick(product.id)}
+            >
               <div className="relative">
                 <img
                   src={product.image}
@@ -143,8 +172,32 @@ const Products = () => {
 
                 {/* Quick Actions */}
                 <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
-                  <Button size="icon" variant="secondary" className="h-8 w-8">
-                    <Eye className="h-4 w-4" />
+                  <Button 
+                    size="icon" 
+                    variant="secondary" 
+                    className="h-8 w-8"
+                    onClick={(e) => handleLike(product.id, e)}
+                  >
+                    <Heart className={`h-4 w-4 ${likedProducts.includes(product.id) ? 'fill-red-500 text-red-500' : ''}`} />
+                  </Button>
+                  <Button 
+                    size="icon" 
+                    variant="secondary" 
+                    className="h-8 w-8"
+                    onClick={(e) => handleShare(product.id, e)}
+                  >
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    size="icon" 
+                    variant="secondary" 
+                    className="h-8 w-8"
+                    asChild
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Link to={`/products/${product.id}`}>
+                      <Eye className="h-4 w-4" />
+                    </Link>
                   </Button>
                 </div>
               </div>

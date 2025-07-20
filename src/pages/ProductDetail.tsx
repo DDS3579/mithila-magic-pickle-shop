@@ -46,6 +46,7 @@ const ProductDetail = () => {
   const product = productData[Number(id) as keyof typeof productData];
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [isLiked, setIsLiked] = useState(false);
   const { addToCart } = useCart();
   const { toast } = useToast();
 
@@ -75,6 +76,19 @@ const ProductDetail = () => {
     toast({
       title: "Added to cart!",
       description: `${quantity} x ${product.name} added to your cart.`,
+    });
+  };
+
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+  };
+
+  const handleShare = () => {
+    const productUrl = window.location.href;
+    navigator.clipboard.writeText(productUrl);
+    toast({
+      title: "Link copied!",
+      description: "Product link has been copied to your clipboard.",
     });
   };
 
@@ -215,10 +229,10 @@ const ProductDetail = () => {
                   <ShoppingCart className="h-5 w-5" />
                   Add to Cart
                 </Button>
-                <Button size="lg" variant="outline">
-                  <Heart className="h-5 w-5" />
+                <Button size="lg" variant="outline" onClick={handleLike}>
+                  <Heart className={`h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" onClick={handleShare}>
                   <Share2 className="h-5 w-5" />
                 </Button>
               </div>

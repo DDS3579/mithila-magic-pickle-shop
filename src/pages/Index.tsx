@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +14,8 @@ import {
   Award,
   Users,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Share2
 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
@@ -30,8 +31,10 @@ import traditionalMaking from "@/assets/traditional-making.jpg";
 
 const Index = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [likedProducts, setLikedProducts] = useState<number[]>([]);
   const { addToCart } = useCart();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const featuredProducts = [
     {
@@ -118,6 +121,29 @@ const Index = () => {
     });
   };
 
+  const handleLike = (productId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLikedProducts(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const handleShare = (productId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const productUrl = `${window.location.origin}/products/${productId}`;
+    navigator.clipboard.writeText(productUrl);
+    toast({
+      title: "Link copied!",
+      description: "Product link has been copied to your clipboard.",
+    });
+  };
+
+  const handleProductClick = (productId: number) => {
+    navigate(`/products/${productId}`);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-warm">
       <Navigation />
@@ -202,7 +228,11 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {featuredProducts.map((product) => (
-              <Card key={product.id} className="group hover:shadow-glow transition-all duration-300 overflow-hidden">
+              <Card 
+                key={product.id} 
+                className="group hover:shadow-glow transition-all duration-300 overflow-hidden cursor-pointer"
+                onClick={() => handleProductClick(product.id)}
+              >
                 <div className="relative">
                   <img
                     src={product.image}
@@ -218,13 +248,24 @@ const Index = () => {
                     {product.badge}
                   </Badge>
 
-                  <Button
-                    size="icon"
-                    className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    variant="secondary"
-                  >
-                    <Heart className="h-4 w-4" />
-                  </Button>
+                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Button
+                      size="icon"
+                      variant="secondary"
+                      onClick={(e) => handleLike(product.id, e)}
+                      className="h-8 w-8"
+                    >
+                      <Heart className={`h-4 w-4 ${likedProducts.includes(product.id) ? 'fill-red-500 text-red-500' : ''}`} />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="secondary"
+                      onClick={(e) => handleShare(product.id, e)}
+                      className="h-8 w-8"
+                    >
+                      <Share2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
 
                 <CardContent className="p-6">
